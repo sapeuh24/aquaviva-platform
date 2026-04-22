@@ -1,1 +1,0 @@
-.panel-enter-active[data-v-2513bd5b]{animation:panelIn-2513bd5b .22s cubic-bezier(.34,1.1,.64,1)}.panel-leave-active[data-v-2513bd5b]{animation:panelIn-2513bd5b .18s ease reverse}@keyframes panelIn-2513bd5b{0%{opacity:0;transform:translate(40px)}to{opacity:1;transform:translate(0)}}
