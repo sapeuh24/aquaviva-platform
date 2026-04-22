@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   // En GitHub Pages el repo se sirve como /nombre-del-repo/
   // La variable VITE_BASE_URL se inyecta desde el workflow de GitHub Actions
-  base: process.env.VITE_BASE_URL || '/',
+  base: process.env.VITE_BASE_URL ?? '/',
   plugins: [vue()],
   resolve: {
     alias: {

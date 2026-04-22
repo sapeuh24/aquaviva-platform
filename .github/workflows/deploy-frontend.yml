@@ -6,12 +6,7 @@ on:
     paths:
       - 'frontend/**'
       - '.github/workflows/deploy-frontend.yml'
-  workflow_dispatch:   # permite ejecutar manualmente desde la UI de GitHub
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch:
 
 # Solo un deploy a la vez
 concurrency:
@@ -22,6 +17,8 @@ jobs:
   build:
     name: Build Vite
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,7 +37,6 @@ jobs:
       - name: Build
         working-directory: frontend
         env:
-          # Base URL = /<nombre-del-repositorio>/  (se calcula automáticamente)
           VITE_BASE_URL: /${{ github.event.repository.name }}/
         run: npm run build
 
@@ -53,6 +49,9 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
