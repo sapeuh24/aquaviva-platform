@@ -1,0 +1,44 @@
+# ─── Node / Frontend ──────────────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+.vite/
+
+# ─── Laravel / Backend ────────────────────────────────────────────────────────
+backend/vendor/
+backend/.env
+backend/.env.backup
+backend/storage/logs/*.log
+backend/storage/app/public/
+backend/bootstrap/cache/*.php
+backend/public/hot
+backend/public/storage
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/settings.json
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+docker/mysql/data/
+
+# ─── Claude ───────────────────────────────────────────────────────────────────
+.claude/projects/

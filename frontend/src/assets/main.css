@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Global base ─── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    @apply font-sans text-av-gray-800 bg-av-gray-100 min-h-screen;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Slim scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-av-gray-300 rounded;
+  }
+}
+
+/* ─── Sidebar nav active indicator ─── */
+@layer components {
+  .sb-item-active-indicator::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25%;
+    height: 50%;
+    width: 3px;
+    background: theme('colors.av-green.300');
+    border-radius: 0 3px 3px 0;
+  }
+}
+
+/* ─── Page fade-in transition ─── */
+.page-enter-active {
+  animation: pageIn 0.2s ease;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ─── Form styles (used in modals) ─── */
+.form-section {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #9FADA7;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #F0F2F1;
+  margin-top: 4px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+.form-group:last-child { margin-bottom: 0; }
+.form-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #4A5C55;
+  margin-bottom: 5px;
+}
+.form-label .req { color: #DC2626; margin-left: 2px; }
+.form-control {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 13px;
+  background: #F7F9F8;
+  border: 1px solid #D1D9D5;
+  border-radius: 6px;
+  color: #1C2925;
+  outline: none;
+  transition: all .18s;
+  font-family: inherit;
+}
+.form-control:focus {
+  border-color: #3A9A64;
+  background: white;
+  box-shadow: 0 0 0 3px #DCF0E4;
+}
+textarea.form-control {
+  height: auto;
+  padding: 8px 10px;
+  resize: vertical;
+}
+select.form-control { cursor: pointer; }
+.form-hint {
+  font-size: 11.5px;
+  color: #9FADA7;
+  margin-top: 4px;
+}
+.info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 14px;
+  border: 1px solid transparent;
+}
+.info-banner.info { background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF; }
+.info-banner.warn { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
+.info-banner.danger { background: #FFF5F5; border-color: #FECACA; color: #991B1B; }
+.info-banner.success { background: #F0FDF4; border-color: #BBF7D0; color: #065F46; }

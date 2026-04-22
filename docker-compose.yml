@@ -1,0 +1,97 @@
+services:
+
+  # ─── PHP-FPM — Laravel API ────────────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: development
+    container_name: aquaviva_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      - PHP_OPCACHE_ENABLE=0
+    networks:
+      - aquaviva_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ─── Nginx — Servidor web ─────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: aquaviva_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - aquaviva_network
+    depends_on:
+      - app
+
+  # ─── MySQL 8 ──────────────────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: aquaviva_mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: aquaviva
+      MYSQL_USER: aquaviva
+      MYSQL_PASSWORD: aquaviva_secret
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    volumes:
+      - aquaviva_mysql_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/aquaviva.cnf:ro
+    networks:
+      - aquaviva_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "aquaviva", "-paquaviva_secret"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── phpMyAdmin — Gestor visual de DB ────────────────────────────────────
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    container_name: aquaviva_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: aquaviva
+      PMA_PASSWORD: aquaviva_secret
+      UPLOAD_LIMIT: 50M
+    networks:
+      - aquaviva_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ─── Mailpit — Captura de correos en desarrollo ───────────────────────────
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: aquaviva_mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - aquaviva_network
+
+networks:
+  aquaviva_network:
+    driver: bridge
+
+volumes:
+  aquaviva_mysql_data:
+    driver: local
