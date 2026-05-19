@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aquaviva — Flujo del Sistema</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f0;
+      color: #1a2e1a;
+      padding: 32px 24px;
+    }
+    header {
+      display: flex; align-items: center; gap: 16px;
+      background: #1a3d1a; color: white;
+      padding: 20px 28px; border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .logo {
+      width: 52px; height: 52px; background: #4CAF50;
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-weight: 900; font-size: 20px;
+    }
+    header h1 { font-size: 22px; font-weight: 700; }
+    header p  { font-size: 13px; opacity: 0.8; margin-top: 3px; }
+    .legend {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      background: white; padding: 16px 20px;
+      border-radius: 10px; margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; }
+    .seccion {
+      background: white; border-radius: 12px;
+      padding: 28px; margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .seccion h2 {
+      font-size: 17px; font-weight: 700; margin-bottom: 6px;
+      color: #1a3d1a; display: flex; align-items: center; gap: 8px;
+    }
+    .seccion p.desc { font-size: 13px; color: #555; margin-bottom: 20px; }
+    .mermaid { overflow-x: auto; }
+    .roles-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px; margin-top: 8px;
+    }
+    .rol-card {
+      border-radius: 10px; padding: 16px;
+      border-left: 5px solid;
+    }
+    .rol-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+    .rol-card ul { font-size: 12px; list-style: none; padding: 0; }
+    .rol-card li { padding: 3px 0; }
+    .rol-card li::before { content: "✓ "; color: inherit; font-weight: bold; }
+    .super  { background: #e8f5e9; border-color: #2e7d32; color: #2e7d32; }
+    .coord  { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
+    .analyst{ background: #fff3e0; border-color: #e65100; color: #e65100; }
+    .viewer { background: #fce4ec; border-color: #880e4f; color: #880e4f; }
+    footer {
+      text-align: center; font-size: 12px; color: #888; margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AV</div>
+  <div>
+    <h1>Aquaviva — Flujo del Sistema</h1>
+    <p>Cómo funciona la plataforma de gestión ambiental · Mayo 2026</p>
+  </div>
+</header>
+
+<!-- LEYENDA -->
+<div class="legend">
+  <strong style="font-size:13px;margin-right:4px;">Referencias:</strong>
+  <div class="legend-item"><div class="dot" style="background:#2e7d32"></div> Super Administrador</div>
+  <div class="legend-item"><div class="dot" style="background:#1565c0"></div> Coordinador</div>
+  <div class="legend-item"><div class="dot" style="background:#e65100"></div> Analista</div>
+  <div class="legend-item"><div class="dot" style="background:#880e4f"></div> Solo Lectura</div>
+  <div class="legend-item"><div class="dot" style="background:#6a1b9a"></div> Sistema automático</div>
+</div>
+
+<!-- SECCION 1: FLUJO GENERAL -->
+<div class="seccion">
+  <h2>📋 1. Flujo General del Sistema</h2>
+  <p class="desc">Desde que el usuario entra hasta que se genera un reporte. Sigue el orden de arriba hacia abajo.</p>
+  <div class="mermaid">
+flowchart TD
+    A([🔐 Usuario ingresa\ncon correo y contraseña]) --> B{¿Qué rol tiene?}
+
+    B -->|Super Admin| C[🏢 Gestiona empresas\ny usuarios]
+    B -->|Coordinador| D[📁 Ve sus proyectos\nasignados]
+    B -->|Analista| E[📝 Ve sus actividades\ndel día]
+    B -->|Solo lectura| F[👁️ Consulta reportes\nsin editar]
+
+    C --> G[🌿 Crea Programas\n Ej: Manejo de Residuos]
+    G --> H[📂 Crea Proyectos\ndentro del programa]
+    D --> H
+
+    H --> I[📊 Crea Ficha de\nMonitoreo PMA]
+    I --> J[🗂️ Agrega Fichas de\nTrabajo / Herramientas]
+    J --> K[📈 Define Indicadores\nde cumplimiento]
+    K --> L[✅ Crea Actividades\ncon fechas límite]
+
+    L --> M{¿Analista registra\nla actividad?}
+    M -->|Sí — a tiempo| N[📎 Sube evidencias\nfotos, docs, etc.]
+    M -->|No — venció| O[🔔 Sistema genera\nalerta automática]
+
+    N --> P[✔️ Actividad marcada\ncomo completada]
+    O --> Q[📬 Notificación al\ncoordinador]
+    Q --> R{¿Se corrige?}
+    R -->|Sí| N
+    R -->|No| S[⚠️ Incumplimiento\nregistrado]
+
+    P --> T[📑 Reporte de\ncumplimiento disponible]
+    S --> T
+
+    style A fill:#1a3d1a,color:#fff,stroke:none
+    style B fill:#f9a825,color:#000,stroke:none
+    style C fill:#c8e6c9,stroke:#2e7d32
+    style D fill:#bbdefb,stroke:#1565c0
+    style E fill:#ffe0b2,stroke:#e65100
+    style F fill:#f8bbd0,stroke:#880e4f
+    style G fill:#c8e6c9,stroke:#2e7d32
+    style H fill:#e8f5e9,stroke:#388e3c
+    style I fill:#e8f5e9,stroke:#388e3c
+    style J fill:#e8f5e9,stroke:#388e3c
+    style K fill:#e8f5e9,stroke:#388e3c
+    style L fill:#e8f5e9,stroke:#388e3c
+    style M fill:#f9a825,color:#000,stroke:none
+    style N fill:#ffe0b2,stroke:#e65100
+    style O fill:#ce93d8,stroke:#6a1b9a
+    style P fill:#a5d6a7,stroke:#2e7d32
+    style Q fill:#ce93d8,stroke:#6a1b9a
+    style R fill:#f9a825,color:#000,stroke:none
+    style S fill:#ef9a9a,stroke:#c62828
+    style T fill:#1a3d1a,color:#fff,stroke:none
+  </div>
+</div>
+
+<!-- SECCION 2: JERARQUIA DE DATOS -->
+<div class="seccion">
+  <h2>🗃️ 2. Cómo se organiza la información</h2>
+  <p class="desc">La información tiene una jerarquía — cada nivel contiene al siguiente. Es como carpetas dentro de carpetas.</p>
+  <div class="mermaid">
+flowchart LR
+    subgraph NIVEL1["🏢 EMPRESA"]
+        E1[Constructora\nBogotá SAS]
+        E2[Minera\nAndina]
+    end
+
+    subgraph NIVEL2["🌿 PROGRAMA AMBIENTAL"]
+        P1[Manejo de\nResiduos]
+        P2[Gestión\ndel Agua]
+        P3[Calidad\ndel Aire]
+    end
+
+    subgraph NIVEL3["📂 PROYECTO"]
+        PR1[Proyecto Fase 1\nCódigo: PRY-001]
+        PR2[Proyecto Fase 2\nCódigo: PRY-002]
+    end
+
+    subgraph NIVEL4["📊 MONITOREO PMA"]
+        M1[Ficha de\nMonitoreo Q1]
+    end
+
+    subgraph NIVEL5["🗂️ FICHA DE TRABAJO"]
+        F1[Residuos Sólidos]
+        F2[Aguas Residuales]
+    end
+
+    subgraph NIVEL6["📈 INDICADORES"]
+        I1[% de residuos\nreciclados]
+        I2[DBO del\nvertimiento]
+    end
+
+    subgraph NIVEL7["✅ ACTIVIDADES + 📎 EVIDENCIAS"]
+        A1[Capacitación\npersonal]
+        A2[Muestra de\nlaboratorio]
+    end
+
+    NIVEL1 --> NIVEL2 --> NIVEL3 --> NIVEL4 --> NIVEL5 --> NIVEL6 --> NIVEL7
+
+    style NIVEL1 fill:#e8f5e9,stroke:#2e7d32
+    style NIVEL2 fill:#e3f2fd,stroke:#1565c0
+    style NIVEL3 fill:#fff3e0,stroke:#e65100
+    style NIVEL4 fill:#f3e5f5,stroke:#6a1b9a
+    style NIVEL5 fill:#fce4ec,stroke:#880e4f
+    style NIVEL6 fill:#e0f7fa,stroke:#00695c
+    style NIVEL7 fill:#f9fbe7,stroke:#827717
+  </div>
+</div>
+
+<!-- SECCION 3: ROLES -->
+<div class="seccion">
+  <h2>👥 3. Roles y permisos</h2>
+  <p class="desc">Cada usuario tiene un rol que define qué puede ver y hacer en la plataforma.</p>
+  <div class="roles-grid">
+    <div class="rol-card super">
+      <h3>🔑 Super Administrador<br><small style="font-weight:400">(Aquaviva SAS)</small></h3>
+      <ul>
+        <li>Crear y editar empresas</li>
+        <li>Crear usuarios de cualquier rol</li>
+        <li>Ver toda la plataforma</li>
+        <li>Configurar programas</li>
+        <li>Acceder a todos los reportes</li>
+      </ul>
+    </div>
+    <div class="rol-card coord">
+      <h3>📋 Coordinador<br><small style="font-weight:400">(Empresa cliente)</small></h3>
+      <ul>
+        <li>Crear y editar proyectos</li>
+        <li>Crear fichas de monitoreo</li>
+        <li>Asignar actividades a analistas</li>
+        <li>Revisar evidencias subidas</li>
+        <li>Ver alertas de su empresa</li>
+      </ul>
+    </div>
+    <div class="rol-card analyst">
+      <h3>🔬 Analista<br><small style="font-weight:400">(Empresa cliente)</small></h3>
+      <ul>
+        <li>Ver sus actividades asignadas</li>
+        <li>Registrar datos de campo</li>
+        <li>Subir evidencias y archivos</li>
+        <li>Marcar actividades completadas</li>
+        <li>Ver indicadores de su proyecto</li>
+      </ul>
+    </div>
+    <div class="rol-card viewer">
+      <h3>👁️ Solo Lectura<br><small style="font-weight:400">(Invitado / auditor)</small></h3>
+      <ul>
+        <li>Ver proyectos sin editar</li>
+        <li>Descargar reportes</li>
+        <li>Consultar indicadores</li>
+        <li>Ver evidencias cargadas</li>
+        <li>No puede crear ni modificar</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECCION 4: ALERTAS -->
+<div class="seccion">
+  <h2>🔔 4. Sistema de alertas automáticas</h2>
+  <p class="desc">El sistema revisa constantemente las fechas límite y genera alertas antes de que venzan.</p>
+  <div class="mermaid">
+flowchart LR
+    A[📅 Actividad con\nfecha límite] --> B{¿Cuántos días\nfaltan?}
+    B -->|15 días| C[🟡 Alerta PREVENTIVA\nAviso temprano]
+    B -->|5 días| D[🟠 Alerta URGENTE\nAtención requerida]
+    B -->|0 días\nvencida| E[🔴 Alerta CRÍTICA\nIncumplimiento]
+    B -->|Completada| F[✅ Sin alerta\nTodo en orden]
+
+    C --> G[📬 Notificación\nal coordinador]
+    D --> G
+    E --> H[📬 Notificación al\ncoordinador Y\nsuper admin]
+
+    G --> I[📊 Aparece en\nDashboard]
+    H --> I
+
+    style A fill:#e8f5e9,stroke:#2e7d32
+    style B fill:#f9a825,color:#000,stroke:none
+    style C fill:#fff9c4,stroke:#f9a825
+    style D fill:#ffe0b2,stroke:#e65100
+    style E fill:#ffcdd2,stroke:#c62828
+    style F fill:#c8e6c9,stroke:#2e7d32
+    style G fill:#ce93d8,stroke:#6a1b9a
+    style H fill:#ef9a9a,stroke:#c62828
+    style I fill:#1a3d1a,color:#fff,stroke:none
+  </div>
+</div>
+
+<footer>
+  © 2026 Aquaviva SAS · Documento interno · Versión 1.0
+</footer>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { curve: 'basis', padding: 20 } });
+</script>
+</body>
+</html>

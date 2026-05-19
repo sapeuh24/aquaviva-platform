@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aquaviva — Modelo de Datos</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f4f0;
+      color: #1a2e1a;
+      padding: 32px 24px;
+    }
+    header {
+      display: flex; align-items: center; gap: 16px;
+      background: #1a3d1a; color: white;
+      padding: 20px 28px; border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .logo {
+      width: 52px; height: 52px; background: #4CAF50;
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-weight: 900; font-size: 20px;
+    }
+    header h1 { font-size: 22px; font-weight: 700; }
+    header p  { font-size: 13px; opacity: 0.8; margin-top: 3px; }
+
+    .resumen {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px; margin-bottom: 28px;
+    }
+    .kpi {
+      background: white; border-radius: 10px; padding: 16px 18px;
+      text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      border-top: 4px solid;
+    }
+    .kpi.ok { border-color: #2e7d32; }
+    .kpi.pending { border-color: #f9a825; }
+    .kpi .num { font-size: 32px; font-weight: 900; }
+    .kpi.ok .num { color: #2e7d32; }
+    .kpi.pending .num { color: #f9a825; }
+    .kpi .label { font-size: 12px; color: #666; margin-top: 4px; }
+
+    .leyenda {
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+      background: white; padding: 14px 20px; border-radius: 10px;
+      margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+    .tag-ok     { background: #c8e6c9; color: #1b5e20; }
+    .tag-req    { background: #fff9c4; color: #f57f17; border: 1px solid #f9a825; }
+    .tag-new    { background: #bbdefb; color: #0d47a1; }
+    .tag-pk     { background: #e0e0e0; color: #333; font-size: 11px; }
+
+    .seccion {
+      background: white; border-radius: 12px;
+      padding: 28px; margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .seccion h2 {
+      font-size: 17px; font-weight: 700; margin-bottom: 6px;
+      color: #1a3d1a; display: flex; align-items: center; gap: 8px;
+    }
+    .seccion p.desc { font-size: 13px; color: #555; margin-bottom: 20px; }
+
+    /* Tabla de campos */
+    .tablas-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .tabla-card {
+      border: 2px solid #e0e0e0; border-radius: 10px; overflow: hidden;
+    }
+    .tabla-card .tabla-header {
+      padding: 12px 16px; font-weight: 700; font-size: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tabla-card table {
+      width: 100%; border-collapse: collapse; font-size: 12px;
+    }
+    .tabla-card table th {
+      background: #f5f5f5; padding: 7px 12px; text-align: left;
+      color: #666; font-weight: 600; border-bottom: 1px solid #e0e0e0;
+    }
+    .tabla-card table td {
+      padding: 7px 12px; border-bottom: 1px solid #f0f0f0;
+      vertical-align: middle;
+    }
+    .tabla-card table tr:last-child td { border-bottom: none; }
+    .tabla-card table tr.faltante td { background: #fffde7; }
+    .tabla-card table tr.nuevo-modulo td { background: #e3f2fd; }
+
+    .chip {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 700; white-space: nowrap;
+    }
+    .chip-pk   { background: #e0e0e0; color: #333; }
+    .chip-fk   { background: #f3e5f5; color: #6a1b9a; }
+    .chip-ok   { background: #c8e6c9; color: #1b5e20; }
+    .chip-req  { background: #fff9c4; color: #f57f17; border: 1px solid #f9a825; }
+    .chip-new  { background: #bbdefb; color: #0d47a1; }
+
+    .mermaid { overflow-x: auto; }
+    footer {
+      text-align: center; font-size: 12px; color: #888; margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AV</div>
+  <div>
+    <h1>Aquaviva — Modelo de Datos (Base de Datos)</h1>
+    <p>Qué información guarda el sistema, qué está listo y qué falta · Mayo 2026</p>
+  </div>
+</header>
+
+<!-- KPIs -->
+<div class="resumen">
+  <div class="kpi ok">
+    <div class="num">10</div>
+    <div class="label">Tablas definidas</div>
+  </div>
+  <div class="kpi ok">
+    <div class="num">68</div>
+    <div class="label">Campos implementados</div>
+  </div>
+  <div class="kpi pending">
+    <div class="num">34</div>
+    <div class="label">Campos pendientes</div>
+  </div>
+  <div class="kpi pending">
+    <div class="num">4</div>
+    <div class="label">Módulos por agregar</div>
+  </div>
+</div>
+
+<!-- LEYENDA -->
+<div class="leyenda">
+  <strong style="font-size:13px;">Convenciones:</strong>
+  <span class="tag tag-ok">✅ Campo implementado</span>
+  <span class="tag tag-req">⚠️ Campo pendiente / faltante</span>
+  <span class="tag tag-new">🔵 Módulo / tabla nueva por crear</span>
+  <span class="tag tag-pk">🔑 PK = clave única &nbsp; FK = referencia a otra tabla</span>
+</div>
+
+<!-- DIAGRAMA ER SIMPLIFICADO -->
+<div class="seccion">
+  <h2>🗺️ 1. Mapa general — cómo se relacionan las tablas</h2>
+  <p class="desc">Cada caja es una tabla (grupo de datos). Las flechas muestran qué tabla depende de cuál.</p>
+  <div class="mermaid">
+erDiagram
+    COMPANY ||--o{ USER : "tiene"
+    COMPANY ||--o{ PROGRAM : "tiene"
+    PROGRAM ||--o{ PROJECT : "contiene"
+    PROJECT ||--o{ MONITORING : "tiene"
+    MONITORING ||--o{ WORKSHEET : "contiene"
+    WORKSHEET ||--o{ INDICATOR : "mide"
+    INDICATOR ||--o{ ACTIVITY : "requiere"
+    ACTIVITY ||--o{ EVIDENCE : "adjunta"
+    USER    ||--o{ ALERT : "recibe"
+    PROJECT ||--o{ ALERT : "genera"
+
+    COMPANY {
+        int id PK
+        string nombre
+        string nit "⚠️ FALTA"
+        string sector "⚠️ FALTA"
+        string logo "⚠️ FALTA"
+        string telefono "⚠️ FALTA"
+    }
+    USER {
+        int id PK
+        int company_id FK
+        string nombre
+        string correo
+        string rol
+        string cargo "⚠️ FALTA"
+        string telefono "⚠️ FALTA"
+    }
+    PROGRAM {
+        int id PK
+        int company_id FK
+        string nombre
+        string descripcion
+        string tipo "⚠️ FALTA"
+    }
+    PROJECT {
+        int id PK
+        int program_id FK
+        string nombre
+        string codigo
+        string departamento
+        string municipio
+        string fase
+        date fecha_inicio
+        date fecha_fin "⚠️ FALTA"
+        string estado "⚠️ FALTA"
+        string licencia_no "⚠️ FALTA"
+    }
+    MONITORING {
+        int id PK
+        int project_id FK
+        string nombre
+        string tipo_pma "⚠️ FALTA"
+        string periodo "⚠️ FALTA"
+    }
+    WORKSHEET {
+        int id PK
+        int monitoring_id FK
+        string nombre
+        string herramienta
+        string medio "⚠️ FALTA"
+    }
+    INDICATOR {
+        int id PK
+        int worksheet_id FK
+        string nombre
+        float meta
+        string unidad
+        float linea_base "⚠️ FALTA"
+        float valor_actual "⚠️ FALTA"
+        string frecuencia "⚠️ FALTA"
+    }
+    ACTIVITY {
+        int id PK
+        int indicator_id FK
+        string nombre
+        date fecha_planificada
+        date fecha_real "⚠️ FALTA"
+        string estado "⚠️ FALTA"
+    }
+    EVIDENCE {
+        int id PK
+        int activity_id FK
+        string nombre_archivo
+        string ruta_archivo
+        int uploaded_by_id FK
+        date fecha_subida "⚠️ FALTA"
+        int tamano_kb "⚠️ FALTA"
+    }
+    ALERT {
+        int id PK
+        int user_id FK
+        int project_id FK
+        string tipo
+        string mensaje
+        date fecha_limite
+        string estado "⚠️ FALTA"
+        date fecha_lectura "⚠️ FALTA"
+    }
+  </div>
+</div>
+
+<!-- DETALLE POR TABLA -->
+<div class="seccion">
+  <h2>📋 2. Detalle campo por campo</h2>
+  <p class="desc">Para cada tabla: qué campos existen hoy y cuáles hacen falta para la versión completa.</p>
+
+  <div class="tablas-grid">
+
+    <!-- COMPANY -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e8f5e9;color:#1b5e20;">🏢 EMPRESA (companies)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Razón social</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>email</td><td>Correo de contacto</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>nit</td><td>NIT o RUT</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>sector</td><td>Tipo de industria</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>telefono</td><td>Tel. empresa</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>direccion</td><td>Dirección física</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>logo</td><td>Logo de la empresa</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>ciudad</td><td>Ciudad sede</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>autoridad_ambiental</td><td>CAR, ANLA, etc.</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- USER -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e3f2fd;color:#0d47a1;">👤 USUARIO (users)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> company_id</td><td>A qué empresa pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Nombre completo</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>email</td><td>Correo de acceso</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>password</td><td>Contraseña (encriptada)</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>rol</td><td>super_admin, coordinador…</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>cargo</td><td>Cargo en la empresa</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>telefono</td><td>Teléfono de contacto</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>activo</td><td>Si puede ingresar o no</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- PROGRAM -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#f3e5f5;color:#4a148c;">🌿 PROGRAMA (programs)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> company_id</td><td>A qué empresa pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Nombre del programa</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>descripcion</td><td>Descripción</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>tipo</td><td>PMA, PCA, PGIRS…</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>fecha_vigencia</td><td>Hasta cuándo aplica</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- PROJECT -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#fff3e0;color:#e65100;">📂 PROYECTO (projects)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> program_id</td><td>A qué programa pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Nombre del proyecto</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>codigo</td><td>Código ej: PRY-001</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>departamento</td><td>Departamento</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>municipio</td><td>Municipio</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>fase</td><td>Fase del proyecto</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>fecha_inicio</td><td>Fecha de inicio</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>descripcion</td><td>Descripción</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>fecha_fin</td><td>Fecha de cierre</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>estado</td><td>activo / cerrado / suspendido</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>no_licencia</td><td>No. licencia ambiental</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>responsable_id</td><td>Coordinador asignado</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- INDICATOR -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e0f7fa;color:#004d40;">📈 INDICADOR (indicators)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> worksheet_id</td><td>A qué ficha pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Nombre del indicador</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>meta</td><td>Valor objetivo</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>unidad</td><td>%, kg, m³, NTU…</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>linea_base</td><td>Valor de partida</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>valor_actual</td><td>Último valor medido</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>frecuencia_medicion</td><td>Mensual, trimestral…</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>responsable_id</td><td>Quién lo mide</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#fce4ec;color:#880e4f;">✅ ACTIVIDAD (activities)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> indicator_id</td><td>A qué indicador pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre</td><td>Nombre de la actividad</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>descripcion</td><td>Descripción</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>fecha_planificada</td><td>Cuándo debe hacerse</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>fecha_real</td><td>Cuándo se hizo realmente</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>estado</td><td>pendiente/completada/vencida</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>asignado_a_id</td><td>Analista responsable</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>observaciones</td><td>Notas del analista</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- EVIDENCE -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#f9fbe7;color:#558b2f;">📎 EVIDENCIA (evidences)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> activity_id</td><td>A qué actividad pertenece</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>nombre_archivo</td><td>Nombre del documento</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>ruta_archivo</td><td>Dónde está guardado</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>tipo_archivo</td><td>PDF, JPG, XLSX…</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>tamano_kb</td><td>Tamaño en KB</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>subido_por_id</td><td>Quién lo subió</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>fecha_subida</td><td>Cuándo se subió</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>descripcion</td><td>Para qué sirve el archivo</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+    <!-- ALERT -->
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#ffcdd2;color:#b71c1c;">🔔 ALERTA (alerts)</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> user_id</td><td>A quién va la alerta</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td><span class="chip chip-fk">FK</span> project_id</td><td>De qué proyecto</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>tipo</td><td>vencimiento / incumplimiento</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>mensaje</td><td>Texto de la alerta</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr><td>fecha_limite</td><td>Fecha del evento</td><td><span class="chip chip-ok">✅ listo</span></td></tr>
+        <tr class="faltante"><td>estado</td><td>leída / no leída / resuelta</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>fecha_lectura</td><td>Cuándo la vieron</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+        <tr class="faltante"><td>prioridad</td><td>alta / media / baja</td><td><span class="chip chip-req">⚠️ falta</span></td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODULOS NUEVOS -->
+<div class="seccion">
+  <h2>🔵 3. Módulos / tablas nuevas que se deben crear</h2>
+  <p class="desc">Estas tablas no existen aún pero son necesarias para la versión completa del sistema.</p>
+
+  <div class="tablas-grid">
+
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e3f2fd;color:#0d47a1;">📑 REPORTE (reports) — NUEVO</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-fk">FK</span> project_id</td><td>De qué proyecto</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>tipo</td><td>Trimestral, anual, ANLA…</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>periodo</td><td>Q1-2026, 2026…</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>fecha_generacion</td><td>Cuándo se generó</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>archivo_pdf</td><td>Ruta del PDF generado</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>generado_por_id</td><td>Quién lo generó</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+      </table>
+    </div>
+
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e3f2fd;color:#0d47a1;">📬 NOTIFICACIÓN (notifications) — NUEVO</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-fk">FK</span> user_id</td><td>A quién va</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>titulo</td><td>Asunto</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>cuerpo</td><td>Texto completo</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>canal</td><td>email / app / whatsapp</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>enviada_en</td><td>Timestamp de envío</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>leida</td><td>Si fue vista</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+      </table>
+    </div>
+
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e3f2fd;color:#0d47a1;">📜 AUDITORÍA (audit_logs) — NUEVO</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-fk">FK</span> user_id</td><td>Quién hizo la acción</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>accion</td><td>creó / editó / eliminó</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>tabla</td><td>En qué tabla ocurrió</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>registro_id</td><td>Qué registro se afectó</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>ip_address</td><td>IP desde donde se hizo</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>fecha</td><td>Cuándo ocurrió</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+      </table>
+    </div>
+
+    <div class="tabla-card">
+      <div class="tabla-header" style="background:#e3f2fd;color:#0d47a1;">📁 DOCUMENTO LEGAL (legal_docs) — NUEVO</div>
+      <table>
+        <tr><th>Campo</th><th>Qué guarda</th><th>Estado</th></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-pk">PK</span> id</td><td>Identificador único</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td><span class="chip chip-fk">FK</span> project_id</td><td>De qué proyecto</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>tipo</td><td>Licencia, resolución, PMA…</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>numero</td><td>No. del documento</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>autoridad</td><td>CAR, ANLA, Gobernación…</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>fecha_expedicion</td><td>Cuándo fue expedido</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>fecha_vencimiento</td><td>Cuándo vence</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+        <tr class="nuevo-modulo"><td>archivo</td><td>PDF del documento</td><td><span class="chip chip-new">🔵 por crear</span></td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRIORIDADES -->
+<div class="seccion">
+  <h2>🎯 4. Prioridad de desarrollo recomendada</h2>
+  <p class="desc">En qué orden conviene completar los campos y módulos faltantes.</p>
+  <div class="mermaid">
+gantt
+    title Plan de desarrollo — Campos y módulos pendientes
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+
+    section 🔴 Prioridad ALTA
+    Estado de actividades (pending/done/overdue)    :crit, a1, 2026-06-01, 14d
+    Asignación analista a actividad                 :crit, a2, after a1, 10d
+    Estado de proyecto (activo/cerrado)             :crit, a3, after a1, 7d
+    NIT y sector en empresa                         :crit, a4, 2026-06-01, 7d
+
+    section 🟠 Prioridad MEDIA
+    Valor actual de indicadores                     :active, b1, 2026-06-20, 14d
+    Frecuencia de medición de indicadores           :active, b2, after b1, 7d
+    Tipo de archivo y quién subió evidencia         :active, b3, 2026-06-20, 10d
+    Estado de alertas (leída/resuelta)              :active, b4, 2026-07-01, 10d
+
+    section 🔵 Módulos nuevos
+    Tabla de Reportes PDF                           :b5, 2026-07-15, 21d
+    Tabla de Notificaciones                         :b6, after b5, 14d
+    Tabla de Auditoría                              :b7, after b6, 14d
+    Tabla de Documentos Legales                     :b8, 2026-08-01, 21d
+  </div>
+</div>
+
+<footer>
+  © 2026 Aquaviva SAS · Documento interno · Versión 1.0
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    er: { diagramPadding: 20, entityPadding: 15, useMaxWidth: true },
+    gantt: { useMaxWidth: true }
+  });
+</script>
+</body>
+</html>
