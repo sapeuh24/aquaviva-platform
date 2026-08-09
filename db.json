@@ -31,6 +31,13 @@
       "obligations": 0,
       "descripcion": "",
       "fechaInicio": ""
+    },
+    {
+      "id": 99,
+      "nombre": "TEST-FIX-1786289469130",
+      "estado": "activo",
+      "fecha_inicio": "2026-01-01",
+      "descripcion": "Test del fix de guardado"
     }
   ],
   "compromisos": [
