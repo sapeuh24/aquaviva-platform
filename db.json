@@ -31,13 +31,6 @@
       "obligations": 0,
       "descripcion": "",
       "fechaInicio": ""
-    },
-    {
-      "id": 3,
-      "nombre": "Proyecto Demo UI Test",
-      "estado": "activo",
-      "fecha_inicio": "2026-01-01",
-      "descripcion": "Creado desde UI test para verificar guardado"
     }
   ],
   "compromisos": [
