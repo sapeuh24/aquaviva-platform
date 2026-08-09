@@ -5,6 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aquaviva — Gestión Ambiental</title>
+    <!-- Guardar token de demo antes de que el router SPA lo pierda -->
+    <script>
+      (function() {
+        var t = new URLSearchParams(window.location.search).get('token');
+        if (t) sessionStorage.setItem('_aqtoken', t);
+      })();
+    </script>
     <!-- GitHub Pages SPA redirect handler -->
     <script>
       (function(l) {
