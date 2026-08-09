@@ -1,90 +1,122 @@
 {
-  "proyectos": [{
-    "id": 1,
-    "code": "PRY-001",
-    "sede_id": 2,
-    "name": "Parque Solar La Virginia (100MW)",
-    "municipality": "Pereira",
-    "department": "Risaralda",
-    "phase": "Construcción",
-    "phaseType": "info",
-    "status": "Activo",
-    "statusType": "success",
-    "obligations": 1,
-    "organizacion_id": 1,
-    "descripcion": "Proyecto de energía solar fotovoltaica de 100MW.",
-    "fechaInicio": "2024-01-15"
-  }],
-  "compromisos": [{
-    "id": 1,
-    "proyecto_id": 1,
-    "tipo_compromiso": "Licencia ambiental",
-    "no_expediente": "LAV0014-00-2024",
-    "autoridad": "ANLA",
-    "terminos_referencia": "Licencia ambiental para construcción y operación del Parque Solar La Virginia.",
-    "estado": "abierta"
-  }],
-  "programas": [{
-    "id": "VSM37-PMA-AB-S-1",
-    "compromiso_id": 1,
-    "tipo_plan": "Plan de manejo ambiental",
-    "medio": "Abiótico",
-    "nombre_programa": "Manejo y disposición de material sobrante de excavación",
-    "nombre_medida_ficha": "Disposición adecuada de materiales sobrantes de excavación",
-    "tipo_medida": "prevención"
-  }],
-  "acciones": [{
-    "id": 1,
-    "compromiso_id": 1,
-    "programa_id": null,
-    "programa": null,
-    "tipo": "normativa",
-    "tipo_accion": "normativa",
-    "descripcion": "Cumplimiento de condicionantes de la licencia ambiental",
-    "nombre_accion": "Cumplimiento de condicionantes de la licencia ambiental",
-    "referencia_accion": "Resolución No. 002163 de 2024",
-    "accion": "Dar cumplimiento a todos los condicionantes establecidos en la resolución de licencia ambiental.",
-    "fecha_inicio": "2024-03-15",
-    "puntual_o_periodico": "Periódica",
-    "plazo_ejecucion": null,
-    "periodicidad": "mensual",
-    "estado": "abierta"
-  }],
-  "avances": [{
-    "id": 1,
-    "accion_id": 1,
-    "fecha": "2024-04-10",
-    "pct": 75,
-    "notas": "Condicionantes 1-8 cumplidos. Condicionantes 9-11 en proceso.",
-    "usuario": "Admin Demo"
-  }],
-  "evidencias": [{
-    "id": 1,
-    "avance_id": 1,
-    "nombre": "Informe_Cumplimiento_Q1_2024.pdf",
-    "tipo": "pdf",
-    "fecha": "2024-04-15",
-    "usuario": "Admin Demo",
-    "descripcion": "Informe de cumplimiento del primer trimestre 2024"
-  }],
-  "indicadores": [{
-    "id": 1,
-    "programa_id": "VSM37-PMA-AB-S-1",
-    "nombre": "% de condicionantes de licencia cumplidos",
-    "unidad": "%",
-    "meta": 100,
-    "valor_actual": 75,
-    "periodicidad": "mensual",
-    "estado": "en_seguimiento"
-  }],
-  "alertas": [{
-    "id": 1,
-    "tipo": "vencimiento",
-    "titulo": "Presentación ICA Semestral — ANLA",
-    "descripcion": "El Informe de Cumplimiento Ambiental semestral debe presentarse a la ANLA antes del 30 de agosto de 2024.",
-    "fecha_limite": "2024-08-30",
-    "estado": "activa",
-    "prioridad": "alta",
-    "proyecto_id": 1
-  }]
+  "proyectos": [
+    {
+      "id": 1,
+      "code": "PRY-001",
+      "sede_id": 2,
+      "name": "Parque Solar La Virginia (100MW)",
+      "municipality": "Pereira",
+      "department": "Risaralda",
+      "phase": "Construcción",
+      "phaseType": "info",
+      "status": "Activo",
+      "statusType": "success",
+      "obligations": 1,
+      "organizacion_id": 1,
+      "descripcion": "Proyecto de energía solar fotovoltaica de 100MW.",
+      "fechaInicio": "2024-01-15"
+    },
+    {
+      "id": 2,
+      "code": "PRY-002",
+      "sede_id": null,
+      "organizacion_id": null,
+      "name": "TEST GUARDADO 1786288659581",
+      "municipality": "",
+      "department": "",
+      "phase": "Pre-construcción",
+      "phaseType": "info",
+      "status": "Activo",
+      "statusType": "success",
+      "obligations": 0,
+      "descripcion": "",
+      "fechaInicio": ""
+    }
+  ],
+  "compromisos": [
+    {
+      "id": 1,
+      "proyecto_id": 1,
+      "tipo_compromiso": "Licencia ambiental",
+      "no_expediente": "LAV0014-00-2024",
+      "autoridad": "ANLA",
+      "terminos_referencia": "Licencia ambiental para construcción y operación del Parque Solar La Virginia.",
+      "estado": "abierta"
+    }
+  ],
+  "programas": [
+    {
+      "id": "VSM37-PMA-AB-S-1",
+      "compromiso_id": 1,
+      "tipo_plan": "Plan de manejo ambiental",
+      "medio": "Abiótico",
+      "nombre_programa": "Manejo y disposición de material sobrante de excavación",
+      "nombre_medida_ficha": "Disposición adecuada de materiales sobrantes de excavación",
+      "tipo_medida": "prevención"
+    }
+  ],
+  "acciones": [
+    {
+      "id": 1,
+      "compromiso_id": 1,
+      "programa_id": null,
+      "programa": null,
+      "tipo": "normativa",
+      "tipo_accion": "normativa",
+      "descripcion": "Cumplimiento de condicionantes de la licencia ambiental",
+      "nombre_accion": "Cumplimiento de condicionantes de la licencia ambiental",
+      "referencia_accion": "Resolución No. 002163 de 2024",
+      "accion": "Dar cumplimiento a todos los condicionantes establecidos en la resolución de licencia ambiental.",
+      "fecha_inicio": "2024-03-15",
+      "puntual_o_periodico": "Periódica",
+      "plazo_ejecucion": null,
+      "periodicidad": "mensual",
+      "estado": "abierta"
+    }
+  ],
+  "avances": [
+    {
+      "id": 1,
+      "accion_id": 1,
+      "fecha": "2024-04-10",
+      "pct": 75,
+      "notas": "Condicionantes 1-8 cumplidos. Condicionantes 9-11 en proceso.",
+      "usuario": "Admin Demo"
+    }
+  ],
+  "evidencias": [
+    {
+      "id": 1,
+      "avance_id": 1,
+      "nombre": "Informe_Cumplimiento_Q1_2024.pdf",
+      "tipo": "pdf",
+      "fecha": "2024-04-15",
+      "usuario": "Admin Demo",
+      "descripcion": "Informe de cumplimiento del primer trimestre 2024"
+    }
+  ],
+  "indicadores": [
+    {
+      "id": 1,
+      "programa_id": "VSM37-PMA-AB-S-1",
+      "nombre": "% de condicionantes de licencia cumplidos",
+      "unidad": "%",
+      "meta": 100,
+      "valor_actual": 75,
+      "periodicidad": "mensual",
+      "estado": "en_seguimiento"
+    }
+  ],
+  "alertas": [
+    {
+      "id": 1,
+      "tipo": "vencimiento",
+      "titulo": "Presentación ICA Semestral — ANLA",
+      "descripcion": "El Informe de Cumplimiento Ambiental semestral debe presentarse a la ANLA antes del 30 de agosto de 2024.",
+      "fecha_limite": "2024-08-30",
+      "estado": "activa",
+      "prioridad": "alta",
+      "proyecto_id": 1
+    }
+  ]
 }
