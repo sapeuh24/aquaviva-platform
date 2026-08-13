@@ -102,5 +102,67 @@
       "prioridad": "alta",
       "proyecto_id": 1
     }
+  ],
+  "empresas": [
+    {
+      "id": 1,
+      "name": "Constructora Bogotá SAS",
+      "nit": "900.234.567-1",
+      "city": "Bogotá D.C.",
+      "ciiu": "4111",
+      "programs": 8,
+      "users": 14,
+      "status": "success",
+      "statusLabel": "Activa",
+      "adminEmail": "admin@constructorabogota.co"
+    },
+    {
+      "id": 2,
+      "name": "Minería del Caribe SAS",
+      "nit": "800.123.456-2",
+      "city": "Barranquilla",
+      "ciiu": "0510",
+      "programs": 3,
+      "users": 7,
+      "status": "success",
+      "statusLabel": "Activa",
+      "adminEmail": "admin@mineriacaribe.co"
+    },
+    {
+      "id": 3,
+      "name": "Agroindustria Valle SAS",
+      "nit": "890.345.678-3",
+      "city": "Cali",
+      "ciiu": "0111",
+      "programs": 5,
+      "users": 10,
+      "status": "success",
+      "statusLabel": "Activa",
+      "adminEmail": "admin@agroindustriavalle.co"
+    },
+    {
+      "id": 4,
+      "name": "Petrolífera Andina SAS",
+      "nit": "860.456.789-4",
+      "city": "Yopal",
+      "ciiu": "0610",
+      "programs": 6,
+      "users": 12,
+      "status": "warn",
+      "statusLabel": "En revisión",
+      "adminEmail": "admin@petroliferaandina.co"
+    },
+    {
+      "id": 5,
+      "name": "Constructora del Norte SA",
+      "nit": "830.567.890-5",
+      "city": "Medellín",
+      "ciiu": "4111",
+      "programs": 4,
+      "users": 8,
+      "status": "gray",
+      "statusLabel": "Inactiva",
+      "adminEmail": "admin@constructoranorte.co"
+    }
   ]
 }
