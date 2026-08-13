@@ -31,6 +31,22 @@
       "obligations": 0,
       "descripcion": "",
       "fechaInicio": ""
+    },
+    {
+      "id": 3,
+      "code": "PRY-003",
+      "sede_id": null,
+      "organizacion_id": null,
+      "name": "PRUEBA GUARDADO",
+      "municipality": "",
+      "department": "",
+      "phase": "Pre-construcción",
+      "phaseType": "info",
+      "status": "Activo",
+      "statusType": "success",
+      "obligations": 0,
+      "descripcion": "",
+      "fechaInicio": ""
     }
   ],
   "compromisos": [
