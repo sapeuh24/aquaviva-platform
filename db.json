@@ -15,38 +15,6 @@
       "organizacion_id": 1,
       "descripcion": "Proyecto de energía solar fotovoltaica de 100MW.",
       "fechaInicio": "2024-01-15"
-    },
-    {
-      "id": 2,
-      "code": "PRY-002",
-      "sede_id": null,
-      "organizacion_id": null,
-      "name": "TEST GUARDADO 1786288659581",
-      "municipality": "",
-      "department": "",
-      "phase": "Pre-construcción",
-      "phaseType": "info",
-      "status": "Activo",
-      "statusType": "success",
-      "obligations": 0,
-      "descripcion": "",
-      "fechaInicio": ""
-    },
-    {
-      "id": 3,
-      "code": "PRY-003",
-      "sede_id": null,
-      "organizacion_id": null,
-      "name": "PRUEBA GUARDADO",
-      "municipality": "",
-      "department": "",
-      "phase": "Pre-construcción",
-      "phaseType": "info",
-      "status": "Activo",
-      "statusType": "success",
-      "obligations": 0,
-      "descripcion": "",
-      "fechaInicio": ""
     }
   ],
   "compromisos": [
@@ -57,15 +25,6 @@
       "no_expediente": "LAV0014-00-2024",
       "autoridad": "ANLA",
       "terminos_referencia": "Licencia ambiental para construcción y operación del Parque Solar La Virginia.",
-      "estado": "abierta"
-    },
-    {
-      "id": 2,
-      "proyecto_id": null,
-      "tipo_compromiso": "Licencia ambiental",
-      "no_expediente": "TEST-COMP-001",
-      "autoridad": "",
-      "terminos_referencia": "",
       "estado": "abierta"
     }
   ],
@@ -96,23 +55,6 @@
       "puntual_o_periodico": "Periódica",
       "plazo_ejecucion": null,
       "periodicidad": "mensual",
-      "estado": "abierta"
-    },
-    {
-      "id": 2,
-      "compromiso_id": 1,
-      "programa_id": null,
-      "programa": null,
-      "tipo": "normativa",
-      "tipo_accion": "normativa",
-      "descripcion": "TEST ACCION GUARDADO",
-      "nombre_accion": "TEST ACCION GUARDADO",
-      "referencia_accion": "",
-      "accion": "",
-      "fecha_inicio": "",
-      "puntual_o_periodico": "",
-      "plazo_ejecucion": null,
-      "periodicidad": null,
       "estado": "abierta"
     }
   ],
