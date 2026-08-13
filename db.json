@@ -97,6 +97,23 @@
       "plazo_ejecucion": null,
       "periodicidad": "mensual",
       "estado": "abierta"
+    },
+    {
+      "id": 2,
+      "compromiso_id": 1,
+      "programa_id": null,
+      "programa": null,
+      "tipo": "normativa",
+      "tipo_accion": "normativa",
+      "descripcion": "TEST ACCION GUARDADO",
+      "nombre_accion": "TEST ACCION GUARDADO",
+      "referencia_accion": "",
+      "accion": "",
+      "fecha_inicio": "",
+      "puntual_o_periodico": "",
+      "plazo_ejecucion": null,
+      "periodicidad": null,
+      "estado": "abierta"
     }
   ],
   "avances": [
