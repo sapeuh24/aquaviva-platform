@@ -9,7 +9,7 @@
     <script>
       (function() {
         var t = new URLSearchParams(window.location.search).get('token');
-        if (t) sessionStorage.setItem('_aqtoken', t);
+        if (t) { localStorage.setItem('_aqtoken', t); sessionStorage.setItem('_aqtoken', t); }
       })();
     </script>
     <!-- GitHub Pages SPA redirect handler -->
@@ -25,7 +25,7 @@
         }
       }(window.location))
     </script>
-    <script type="module" crossorigin src="/aquaviva-platform/assets/index-pU9DiMH1.js"></script>
+    <script type="module" crossorigin src="/aquaviva-platform/assets/index-BHP4PmUj.js"></script>
     <link rel="stylesheet" crossorigin href="/aquaviva-platform/assets/index-BA03DkKY.css">
   </head>
   <body>
