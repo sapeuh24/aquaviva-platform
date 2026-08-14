@@ -163,6 +163,21 @@
       "status": "gray",
       "statusLabel": "Inactiva",
       "adminEmail": "admin@constructoranorte.co"
+    },
+    {
+      "id": 6,
+      "name": "Empresa testy 1",
+      "nit": "1212143434",
+      "city": "Barranquilla",
+      "ciiu": "41111",
+      "actividadEconomica": "",
+      "departamento": "Valle del Cauca",
+      "programs": 0,
+      "users": 1,
+      "status": "success",
+      "statusLabel": "Activa",
+      "adminEmail": "byjossone@gmail.com",
+      "adminNombre": "test user 1 test last name 1"
     }
   ]
 }
